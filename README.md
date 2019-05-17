@@ -1,12 +1,12 @@
 # Large scale document processing with Amazon Textract
 
 This reference architecture shows how you can extract text and data from documents at scale using Amazon Textract. Below are some of key attributes of reference architecture:
-- Process incoming documents to an Amazon S3 bucket
-- Process large backfill of existing documents in an Amazon S3 bucket
-- Serverless, highly avaiable and highly scalable architecture
-- Easily handle spiky workloads
-- Pipelines to support both Sync and Async APIs of Amazon Textract
-- Control the rate at which you process documents without doing any complex distributed job management. This control can be important to protect your downstream systems which will be ingesting output from Textract
+- Process incoming documents to an Amazon S3 bucket.
+- Process large backfill of existing documents in an Amazon S3 bucket.
+- Serverless, highly avaiable and highly scalable architecture.
+- Easily handle spiky workloads.
+- Pipelines to support both Sync and Async APIs of Amazon Textract.
+- Control the rate at which you process documents without doing any complex distributed job management. This control can be important to protect your downstream systems which will be ingesting output from Textract.
 - Sample implementaion which takes advantage of [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) to define infrastrucure in code and provision it through CloudFormation.
 
 ## Architecture
