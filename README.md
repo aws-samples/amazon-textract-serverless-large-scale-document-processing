@@ -39,13 +39,12 @@ Architecture below shows overall workflow and few additional components that are
 
 ![](arch-complete.png)
 
-### Process incoming document
+### Process incoming documents workflow
 1. A document gets uploaded to an Amazon S3 bucket. It triggers a Lambda function which writes a task to process the document to DynamoDB.
 2. Using DynamoDB streams, a Lambda function is triggered which writes to an SQS queue in one of the pipelines.
 3. Documents are processed as described above by "Image Pipeline" or "Image and PDF Pipeline".
 
-### Large backfill of existing documents
-
+### Large backfill of existing documents workflow
 1. Documents already exist in an Amazon S3 bucket.
 2. We create a CSV file or use [S3 inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html) to generate a list of documents that needs to be processed.
 3. We create and start an Amazon S3 batch operations job which triggers a Lambda for each object in the list.
