@@ -33,7 +33,7 @@ You control the throughput of your pipeline by controlling the batch size and la
 
 Your pipeline runs at maximum throughput based on limits on your account. If neded you can get limits reaised for concurrent jobs and pipeline automatically adapts based on new limits.
 
-### Document processing workflow
+## Document processing workflow
 
 Architecture below shows overall workflow and few additional components that are used in addition to the core architecture described above to process incoming documents as well as large backfill.
 
