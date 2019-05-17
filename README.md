@@ -5,7 +5,7 @@ This reference architecture shows how you can extract text and data from documen
 - Process large backfill of existing documents
 - Serverless, highly avaiable and highly scalable architecture
 - Easily handle spiky workloads
-- Sync and Async pipeline
+- Pipelines to support both Sync and Async APIs of Amazon Textract
 - Control the rate at which you process documents without doing any compex distributed job management. This control can be important to protect your downstream systems which will be ingesting output from Textract
 - Sample implementaion which takes advantage of [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) to define infrastrucure in code and provision it through CloudFormation.
 
@@ -15,14 +15,14 @@ Architecture below shows the core components.
 
 ![](arch.png)
 
-### Sync Pipeline
+### Image Pipeline (Use Sync APIs of Amazon Textract)
 1. The process starts as a message is send to an Amazon SQS queue to analyze a document.
 2. A Lambda function is invoved synchronously with an event that contains queue message.
 3. Lambda function then calls Amazon Textract and store result in different datastores for example DynamoDB, S3 or Elasticsearch.
 
 You control the throughput of your pipeline by controlling the batch size and lambda concurrency.
 
-### Async Pipeline
+### Image and Pdf Pipeline (Use Async APIs of Amazon Textract)
 
 1. The process starts when a message is sent to an SQS queue to analyze a document.
 2. A job scheduler lambda function runs at certain frequency for example every 5 minutes and poll for messages in the SQS queue.
@@ -41,8 +41,8 @@ Architecture below shows few additional components that are used in addition to 
 
 ### Process incoming document
 1. A document gets uploaded to an S3 bucket. It triggers a Lambda function which writes a task to process the document to DynamoDB.
-2. Using DynamoDB streams, a Lambda function is triggered which writes to an SQS queue in the sync or async pipeline.
-3. Documents are processed as described above by sync or async pipeline.
+2. Using DynamoDB streams, a Lambda function is triggered which writes to an SQS queue in the one of the pipeline.
+3. Documents are processed as described above by "Image Pipeline" or "Image and PDF Pipeline".
 
 ### Large backfill of existing documents
 
