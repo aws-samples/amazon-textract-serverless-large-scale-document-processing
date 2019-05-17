@@ -3,11 +3,11 @@
 This reference architecture shows how you can extract text and data from documents at scale using Amazon Textract. Below are some of key attributes of reference architecture:
 - Process incoming documents to an Amazon S3 bucket.
 - Process large backfill of existing documents in an Amazon S3 bucket.
-- Serverless, highly avaiable and highly scalable architecture.
+- Serverless, highly available and highly scalable architecture.
 - Easily handle spiky workloads.
 - Pipelines to support both Sync and Async APIs of Amazon Textract.
 - Control the rate at which you process documents without doing any complex distributed job management. This control can be important to protect your downstream systems which will be ingesting output from Textract.
-- Sample implementaion which takes advantage of [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) to define infrastrucure in code and provision it through CloudFormation.
+- Sample implementation which takes advantage of [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) to define infrastructure in code and provision it through CloudFormation.
 
 ## Architecture
 
@@ -31,7 +31,7 @@ You control the throughput of your pipeline by controlling the batch size and la
 5. SNS then triggers the job scheduler lambda function to start next set of Amazon Textract jobs.
 6. SNS also sends a message to an SQS queue which is then processed by a Lambda function to get results from Amazon Textract and store them in a relevant dataset for example DynamoDB, S3 or Elasticsearch.
 
-Your pipeline runs at maximum throughput based on limits on your account. If neded you can get limits reaised for concurrent jobs and pipeline automatically adapts based on new limits.
+Your pipeline runs at maximum throughput based on limits on your account. If needed you can get limits raised for concurrent jobs and pipeline automatically adapts based on new limits.
 
 ## Document processing workflow
 
@@ -108,7 +108,7 @@ Similar architecture can be used for other services like Amazon Rekognition to p
 - Produce and export CloudFormation template if needed: "cdk synth -o textractcf".
 
 ## Cost
-- As you deploy this reference architecture, it creates different resources (Amazon S3 bucket, Amazon DynamoDB table, and AWS Lambda functions etc.). When you analyze documents, it calls different APIs (Amazon Textract) in your AWS account. You will get charged for all the API calls made as part of the analysis as well as any AWS resources created as part of the deployment. To avoid any recurrning charges, delete stack using "cdk destroy".
+- As you deploy this reference architecture, it creates different resources (Amazon S3 bucket, Amazon DynamoDB table, and AWS Lambda functions etc.). When you analyze documents, it calls different APIs (Amazon Textract) in your AWS account. You will get charged for all the API calls made as part of the analysis as well as any AWS resources created as part of the deployment. To avoid any recurring charges, delete stack using "cdk destroy".
 
 ## Delete stack
 - Run: cdk destroy
