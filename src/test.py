@@ -10,15 +10,17 @@ import uuid
 import json
 import datastore
 
-syncQueueUrl = "https://sqs.us-east-1.amazonaws.com/645849832089/TextractPipeline-SyncJobs0FE0C444-BBR6E631F0I6"
-asyncQueueUrl = "https://sqs.us-east-1.amazonaws.com/645849832089/TextractPipeline-AsyncJobsE9347181-1SV1MLXM1UILD"
+# Update variables below according to your infrastructure
+# You only need this if you want to test lambda code locally
+syncQueueUrl = "https://sqs.us-east-1.amazonaws.com/xxxxxxxxxx/TextractPipeline-SyncJobs0FE0C444-BBR6E631F0I6"
+asyncQueueUrl = "https://sqs.us-east-1.amazonaws.com/xxxxxxxxxx/TextractPipeline-AsyncJobsE9347181-1SV1MLXM1UILD"
 bucketName = "textractpipeline-documentsbucket9ec9deb9-ofohi06s79gi"
 
 documentsTableName = "TextractPipeline-DocumentsTable7E808EE5-8IXG1Z8GJDHB"
 outputTableName = "TextractPipeline-OutputTable875D8E18-13GV0UL4BOW6R"
 
-snsTopic = "arn:aws:sns:us-east-1:645849832089:TextractPipeline-JobCompletionF65D4017-ASSENX3JLRKZ"
-snsRole = "arn:aws:iam::645849832089:role/TextractPipeline-TextractServiceRole720C3B18-BS7XGG84Z4WH"
+snsTopic = "arn:aws:sns:us-east-1:xxxxxxxxxx:TextractPipeline-JobCompletionF65D4017-ASSENX3JLRKZ"
+snsRole = "arn:aws:iam::xxxxxxxxxx:role/TextractPipeline-TextractServiceRole720C3B18-BS7XGG84Z4WH"
 
 s3Image = "employmentapp.png"
 s3Pdf = "pdfdoc.pdf"
