@@ -90,21 +90,22 @@ Similar architecture can be used for other services like Amazon Rekognition to p
 - Go to Amazon S3 bucket "textractpipeline-existingdocumentsbucketxxxx" and you should see output generated for documents in your list.
 
 ## Source code
-- [s3batchproc.py](./ref-arch/src/s3batchproc.py) Lambda function that handles event from S3 Batch operation job
-- [s3proc.py](./ref-arch/src/s3proc.py) Lambda function that handles s3 event for an object creation
-- [docproc.py](./ref-arch/src/docproc.py) Lambda function that push documents to queues for sync or async pipelines
-- [syncproc.py](./ref-arch/src/syncproc.py) Lambda function that takes documents from a queue and process them using sync APIs
-- [asyncproc.py](./ref-arch/src/asyncproc.py) Lambda function that takes documents from a queue and start async Amazon Textract jobs
-- [jobresultsproc.py](./ref-arch/src/jobresultsproc.py) Lambda function that process results for a completed Amazon Textract async job
+- [s3batchproc.py](./ref-arch/src/s3batchproc.py) Lambda function that handles event from S3 Batch operation job.
+- [s3proc.py](./ref-arch/src/s3proc.py) Lambda function that handles s3 event for an object creation.
+- [docproc.py](./ref-arch/src/docproc.py) Lambda function that push documents to queues for sync or async pipelines.
+- [syncproc.py](./ref-arch/src/syncproc.py) Lambda function that takes documents from a queue and process them using sync APIs.
+- [asyncproc.py](./ref-arch/src/asyncproc.py) Lambda function that takes documents from a queue and start async Amazon Textract jobs.
+- [jobresultsproc.py](./ref-arch/src/jobresultsproc.py) Lambda function that process results for a completed Amazon Textract async job.
+- [textract-pipeline-stack.ts](./textract-pipeline/lib/textract-pipeline-stack.ts) CDK code to define infrastrucure including IAM roles, Lambda functions, SQS queues etc.
 
 ## Modify source code and update deployed stack
-- You can edit lambda functions in src folder
-- Shared code is added as Lambda layers and automatically added  to different lambda functions
-- To test locally, update variables in the top of test.py with values corresponding to the resources created by your deployment
-- Copy updated lambda functions to appropriate folders: sh build.sh
-- Deploy changes: cdk deploy
-- Produce and view CloudFormation template if needed: cdk synth
-- Produce and export CloudFormation template if needed: cdk synth -o textractcf
+- You can edit lambda functions in src folder.
+- Shared code is added as Lambda layers and automatically added  to different lambda functions.
+- To test locally, update variables in the top of test.py with values corresponding to the resources created by your deployment.
+- Copy updated lambda functions to appropriate folders: "sh build.sh".
+- Deploy changes: "cdk deploy".
+- Produce and view CloudFormation template if needed: "cdk synth".
+- Produce and export CloudFormation template if needed: "cdk synth -o textractcf".
 
 ## Cost
 - As you deploy this reference architecture, it creates different resources (Amazon S3 bucket, Amazon DynamoDB table, and AWS Lambda functions etc.). When you analyze documents, it calls different APIs (Amazon Textract) in your AWS account. You will get charged for all the API calls made as part of the analysis as well as any AWS resources created as part of the deployment. To avoid any recurrning charges, delete stack using "cdk destroy".
