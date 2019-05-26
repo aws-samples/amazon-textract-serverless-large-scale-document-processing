@@ -62,7 +62,7 @@ Similar architecture can be used for other services like Amazon Rekognition to p
 ## Setup
 
 - Download this repo on your local machine
-- Install [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/what-is.html): npm install -g aws-cdk
+- Install [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/what-is.html): npm install -g aws-cdk@0.28.0
 - Go to folder textract-pipeline and run: npm install
 
 ## Deployment
