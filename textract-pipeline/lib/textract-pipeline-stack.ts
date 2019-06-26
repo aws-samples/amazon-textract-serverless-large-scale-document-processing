@@ -51,19 +51,25 @@ export class TextractPipelineStack extends cdk.Stack {
     });
 
     //**********SQS Queues*****************************
+
+    //DLQ
+    const dlq = new sqs.Queue(this, 'DLQ', {
+      visibilityTimeoutSec: 30, retentionPeriodSec: 1209600
+    });
+
     //Input Queue for sync jobs
     const syncJobsQueue = new sqs.Queue(this, 'SyncJobs', {
-      visibilityTimeoutSec: 30, retentionPeriodSec: 1209600
+      visibilityTimeoutSec: 30, retentionPeriodSec: 1209600, deadLetterQueue : { queue: dlq, maxReceiveCount: 50}
     });
 
     //Input Queue for async jobs
     const asyncJobsQueue = new sqs.Queue(this, 'AsyncJobs', {
-      visibilityTimeoutSec: 30, retentionPeriodSec: 1209600
+      visibilityTimeoutSec: 30, retentionPeriodSec: 1209600, deadLetterQueue : { queue: dlq, maxReceiveCount: 50}
     });
 
     //Queue
     const jobResultsQueue = new sqs.Queue(this, 'JobResults', {
-      visibilityTimeoutSec: 900, retentionPeriodSec: 1209600
+      visibilityTimeoutSec: 900, retentionPeriodSec: 1209600, deadLetterQueue : { queue: dlq, maxReceiveCount: 50}
     });
     //Trigger
     jobCompletionTopic.subscribeQueue(jobResultsQueue);
