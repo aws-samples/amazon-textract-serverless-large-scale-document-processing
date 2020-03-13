@@ -53,7 +53,7 @@ class AwsHelper:
     def getClient(self, name, awsRegion=None):
         config = Config(
             retries = dict(
-                max_attempts = 6
+                max_attempts = 30
             )
         )
         if(awsRegion):
@@ -64,7 +64,7 @@ class AwsHelper:
     def getResource(self, name, awsRegion=None):
         config = Config(
             retries = dict(
-                max_attempts = 6
+                max_attempts = 30
             )
         )
 
