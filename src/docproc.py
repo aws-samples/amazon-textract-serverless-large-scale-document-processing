@@ -6,12 +6,13 @@ def postMessage(client, qUrl, jsonMessage):
 
     message = json.dumps(jsonMessage)
 
-    client.send_message(
+    response = client.send_message(
         QueueUrl=qUrl,
         MessageBody=message
     )
 
     print("Submitted message to queue: {}".format(message))
+    return response
 
 def processRequest(request):
 
@@ -34,7 +35,7 @@ def processRequest(request):
         qUrl = request['asyncQueueUrl']
 
     if(qUrl):
-        features = ["Text", "Forms", "Tables"]
+        features = ["Text"]
 
         jsonMessage = { 'documentId' : documentId,
             "features" : features,
@@ -42,11 +43,12 @@ def processRequest(request):
             'objectName' : objectName }
 
         client = AwsHelper().getClient('sqs')
-        postMessage(client, qUrl, jsonMessage)
+        response = postMessage(client, qUrl, jsonMessage)
 
     output = "Completed routing for documentId: {}, object: {}/{}".format(documentId, bucketName, objectName)
 
     print(output)
+    return response
 
 def processRecord(record, syncQueueUrl, asyncQueueUrl):
     
@@ -76,7 +78,8 @@ def processRecord(record, syncQueueUrl, asyncQueueUrl):
         request['syncQueueUrl'] = syncQueueUrl
         request['asyncQueueUrl'] = asyncQueueUrl
 
-        processRequest(request)
+        response = processRequest(request)
+    return response
 
 def lambda_handler(event, context):
 
@@ -94,8 +97,11 @@ def lambda_handler(event, context):
 
                     if("eventName" in record and record["eventName"] == "INSERT"):
                         if("dynamodb" in record and record["dynamodb"] and "NewImage" in record["dynamodb"]):
-                            processRecord(record, syncQueueUrl, asyncQueueUrl)
-
+                            response = processRecord(record, syncQueueUrl, asyncQueueUrl)
+                            return {
+                                'statusCode': 200,
+                                'body': json.dumps(response)
+                            }
                 except Exception as e:
                     print("Faild to process record. Exception: {}".format(e))
 
