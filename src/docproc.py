@@ -44,11 +44,11 @@ def processRequest(request):
 
         client = AwsHelper().getClient('sqs')
         response = postMessage(client, qUrl, jsonMessage)
+        return response
 
     output = "Completed routing for documentId: {}, object: {}/{}".format(documentId, bucketName, objectName)
 
     print(output)
-    return response
 
 def processRecord(record, syncQueueUrl, asyncQueueUrl):
     
@@ -79,7 +79,7 @@ def processRecord(record, syncQueueUrl, asyncQueueUrl):
         request['asyncQueueUrl'] = asyncQueueUrl
 
         response = processRequest(request)
-    return response
+        return response
 
 def lambda_handler(event, context):
 
