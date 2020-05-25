@@ -99,8 +99,7 @@ def lambda_handler(event, context):
                         if("dynamodb" in record and record["dynamodb"] and "NewImage" in record["dynamodb"]):
                             response = processRecord(record, syncQueueUrl, asyncQueueUrl)
                             return {
-                                'statusCode': 200,
-                                'body': json.dumps(response)
+                                'message': json.dumps(response)
                             }
                 except Exception as e:
                     print("Faild to process record. Exception: {}".format(e))
