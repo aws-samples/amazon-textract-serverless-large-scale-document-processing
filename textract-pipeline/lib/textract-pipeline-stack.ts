@@ -161,6 +161,7 @@ export class TextractPipelineStack extends cdk.Stack {
       runtime: lambda.Runtime.PYTHON_3_7,
       code: lambda.Code.asset('lambda/documentprocessor'),
       handler: 'lambda_function.lambda_handler',
+      timeout: cdk.Duration.seconds(900),
       environment: {
         SYNC_QUEUE_URL: syncJobsQueue.queueUrl,
         ASYNC_QUEUE_URL: asyncJobsQueue.queueUrl
