@@ -122,8 +122,20 @@ export class TextractPipelineStack extends cdk.Stack {
     s3Processor.addLayers(helperLayer)
     //Trigger
     s3Processor.addEventSource(new S3EventSource(contentBucket, {
-
-      events: [ s3.EventType.OBJECT_CREATED ]
+      events: [ s3.EventType.OBJECT_CREATED ],
+      filters: [ { suffix: '.pdf' }]
+    }));
+    s3Processor.addEventSource(new S3EventSource(contentBucket, {
+      events: [ s3.EventType.OBJECT_CREATED ],
+      filters: [ { suffix: '.png' }]
+    }));
+    s3Processor.addEventSource(new S3EventSource(contentBucket, {
+      events: [ s3.EventType.OBJECT_CREATED ],
+      filters: [ { suffix: '.jpg' }]
+    }));
+    s3Processor.addEventSource(new S3EventSource(contentBucket, {
+      events: [ s3.EventType.OBJECT_CREATED ],
+      filters: [ { suffix: '.jpeg' }]
     }));
     //Permissions
     documentsTable.grantReadWriteData(s3Processor)
