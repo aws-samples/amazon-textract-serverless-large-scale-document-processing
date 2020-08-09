@@ -111,6 +111,7 @@ export class TextractPipelineStack extends cdk.Stack {
       runtime: lambda.Runtime.PYTHON_3_7,
       code: lambda.Code.asset('lambda/s3processor'),
       handler: 'lambda_function.lambda_handler',
+      timeout: cdk.Duration.seconds(30),
       environment: {
         SYNC_QUEUE_URL: syncJobsQueue.queueUrl,
         ASYNC_QUEUE_URL: asyncJobsQueue.queueUrl,
@@ -149,6 +150,7 @@ export class TextractPipelineStack extends cdk.Stack {
       runtime: lambda.Runtime.PYTHON_3_7,
       code: lambda.Code.asset('lambda/s3batchprocessor'),
       handler: 'lambda_function.lambda_handler',
+      timeout: cdk.Duration.seconds(30),
       environment: {
         DOCUMENTS_TABLE: documentsTable.tableName,
         OUTPUT_TABLE: outputTable.tableName
