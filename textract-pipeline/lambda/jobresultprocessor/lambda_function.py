@@ -18,7 +18,7 @@ def getJobResults(api, jobId):
     else:
         response = client.get_document_analysis(JobId=jobId)
     pages.append(response)
-    print("Resultset page recieved: {}".format(len(pages)))
+    print("Resultset page received: {}".format(len(pages)))
     nextToken = None
     if('NextToken' in response):
         nextToken = response['NextToken']
@@ -33,7 +33,7 @@ def getJobResults(api, jobId):
             response = client.get_document_analysis(JobId=jobId, NextToken=nextToken)
 
         pages.append(response)
-        print("Resultset page recieved: {}".format(len(pages)))
+        print("Resultset page received: {}".format(len(pages)))
         nextToken = None
         if('NextToken' in response):
             nextToken = response['NextToken']
@@ -58,7 +58,7 @@ def processRequest(request):
 
     pages = getJobResults(jobAPI, jobId)
 
-    print("Result pages recieved: {}".format(len(pages)))
+    print("Result pages received: {}".format(len(pages)))
 
     dynamodb = AwsHelper().getResource("dynamodb")
     ddb = dynamodb.Table(outputTable)

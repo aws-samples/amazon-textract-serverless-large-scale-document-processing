@@ -96,7 +96,7 @@ def getMessagesFromQueue(sqs, qUrl,):
         VisibilityTimeout=60 #14400
     )
 
-    print('SQS Response Recieved:')
+    print('SQS Response Received:')
     print(response)
 
     if('Messages' in response):
