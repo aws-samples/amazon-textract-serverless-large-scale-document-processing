@@ -3,8 +3,10 @@ from helper import FileHelper, S3Helper
 from trp import Document
 import boto3
 
+
 class OutputGenerator:
-    def __init__(self, documentId, response, bucketName, objectName, forms, tables, ddb):
+    def __init__(self, documentId, response, bucketName, objectName, forms,
+                 tables, ddb):
         self.documentId = documentId
         self.response = response
         self.bucketName = bucketName
@@ -35,17 +37,29 @@ class OutputGenerator:
         textInReadingOrder = page.getTextInReadingOrder()
         opath = "{}page-{}-text-inreadingorder.txt".format(self.outputPath, p)
         S3Helper.writeToS3(textInReadingOrder, self.bucketName, opath)
-        self.saveItem(self.documentId, "page-{}-TextInReadingOrder".format(p), opath)
+        self.saveItem(self.documentId, "page-{}-TextInReadingOrder".format(p),
+                      opath)
+
+    @staticmethod
+    def sort_field(field):
+        if (field.key):
+            return field.key.geometry.boundingBox.top
+        if (field.value):
+            return field.key.geometry.boundingBox.top
 
     def _outputForm(self, page, p):
         csvData = []
-        for field in page.form.fields:
-            csvItem  = []
-            if(field.key):
+        sorted_fields = [
+            t for t in sorted(page.form.fields, key=OutputGenerator.sort_field)
+        ]
+
+        for field in sorted_fields:
+            csvItem = []
+            if (field.key):
                 csvItem.append(field.key.text)
             else:
                 csvItem.append("")
-            if(field.value):
+            if (field.value):
                 csvItem.append(field.value.text)
             else:
                 csvItem.append("")
@@ -63,7 +77,7 @@ class OutputGenerator:
             csvRow.append("Table")
             csvData.append(csvRow)
             for row in table.rows:
-                csvRow  = []
+                csvRow = []
                 for cell in row.cells:
                     csvRow.append(cell.text)
                 csvData.append(csvRow)
@@ -76,7 +90,7 @@ class OutputGenerator:
 
     def run(self):
 
-        if(not self.document.pages):
+        if (not self.document.pages):
             return
 
         opath = "{}response.json".format(self.outputPath)
@@ -98,10 +112,10 @@ class OutputGenerator:
 
             docText = docText + page.text + "\n"
 
-            if(self.forms):
+            if (self.forms):
                 self._outputForm(page, p)
 
-            if(self.tables):
+            if (self.tables):
                 self._outputTable(page, p)
 
             p = p + 1
