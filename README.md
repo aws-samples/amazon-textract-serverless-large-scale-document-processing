@@ -18,20 +18,20 @@ Architecture below shows the core components.
 ### Image pipeline (Use Sync APIs of Amazon Textract)
 1. The process starts as a message is sent to an Amazon SQS queue to analyze a document.
 2. A Lambda function is invoked synchronously with an event that contains queue message.
-3. Lambda function then calls Amazon Textract and store result in different datastores for example DynamoDB, S3 or Elasticsearch.
+3. Lambda function then calls Amazon Textract and store the result in different datastores for example DynamoDB, S3 or Elasticsearch.
 
 You control the throughput of your pipeline by controlling the batch size and lambda concurrency.
 
 ### Image and PDF pipeline (Use Async APIs of Amazon Textract)
 
 1. The process starts when a message is sent to an SQS queue to analyze a document.
-2. A job scheduler lambda function runs at certain frequency for example every 5 minutes and poll for messages in the SQS queue.
+2. A job scheduler lambda function runs at a certain frequency for example every 5 minutes and poll for messages in the SQS queue.
 3. For each message in the queue it submits an Amazon Textract job to process the document and continue submitting these jobs until it reaches the maximum limit of concurrent jobs in your AWS account.
 4. As Amazon Textract is finished processing a document it sends a completion notification to an SNS topic.
-5. SNS then triggers the job scheduler lambda function to start next set of Amazon Textract jobs.
+5. SNS then triggers the job scheduler lambda function to start the next set of Amazon Textract jobs.
 6. SNS also sends a message to an SQS queue which is then processed by a Lambda function to get results from Amazon Textract and store them in a relevant dataset for example DynamoDB, S3 or Elasticsearch.
 
-Your pipeline runs at maximum throughput based on limits on your account. If needed you can get limits raised for concurrent jobs and pipeline automatically adapts based on new limits.
+Your pipeline runs at maximum throughput based on limits on your account. If needed you can get limits raised for concurrent jobs and the pipeline automatically adapts based on new limits.
 
 ## Document processing workflow
 
@@ -96,7 +96,7 @@ Similar architecture can be used for other services like Amazon Rekognition to p
 - [syncproc.py](./src/syncproc.py) Lambda function that takes documents from a queue and process them using sync APIs.
 - [asyncproc.py](./src/asyncproc.py) Lambda function that takes documents from a queue and start async Amazon Textract jobs.
 - [jobresultsproc.py](./src/jobresultsproc.py) Lambda function that process results for a completed Amazon Textract async job.
-- [textract-pipeline-stack.ts](./textract-pipeline/lib/textract-pipeline-stack.ts) CDK code to define infrastrucure including IAM roles, Lambda functions, SQS queues etc.
+- [textract-pipeline-stack.ts](./textract-pipeline/lib/textract-pipeline-stack.ts) CDK code to define Infrastructure including IAM roles, Lambda functions, SQS queues etc.
 
 ## Modify source code and update deployed stack
 - You can edit lambda functions in src folder.
