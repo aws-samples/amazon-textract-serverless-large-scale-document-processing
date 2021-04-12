@@ -286,6 +286,7 @@ export class TextractPipelineStack extends cdk.Stack {
       environment: {
         OUTPUT_TABLE: outputTable.tableName,
         DOCUMENTS_TABLE: documentsTable.tableName,
+        DLQ_QUEUE_URL: dlq.queueUrl,
         AWS_DATA_PATH : "models"
       }
     });

@@ -48,10 +48,11 @@ class DocumentStore:
         try:
             table.update_item(
                 Key = { 'documentId': documentId },
-                UpdateExpression = 'SET documentStatus= :documentstatusValue',
+                UpdateExpression = 'SET documentStatus= :documentstatusValue, documentCompletedOn = :documentCompletedOnValue',
                 ConditionExpression = 'attribute_exists(documentId)',
                 ExpressionAttributeValues = {
-                    ':documentstatusValue': documentStatus
+                    ':documentstatusValue': documentStatus,
+                    ':documentCompletedOnValue': str(datetime.datetime.utcnow())
                 }
             )
         except ClientError as e:
