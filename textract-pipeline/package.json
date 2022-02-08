@@ -16,19 +16,19 @@
     "@types/node": "10.17.5",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
-    "aws-cdk": "1.27.0",
+    "aws-cdk": "1.143.0",
     "ts-node": "^8.1.0",
     "typescript": "~3.7.2"
   },
   "dependencies": {
-    "@aws-cdk/aws-dynamodb": "^1.27.0",
-    "@aws-cdk/aws-events-targets": "^1.27.0",
-    "@aws-cdk/aws-lambda": "^1.27.0",
-    "@aws-cdk/aws-lambda-event-sources": "^1.27.0",
-    "@aws-cdk/aws-sns": "^1.27.0",
-    "@aws-cdk/aws-sns-subscriptions": "^1.27.0",
-    "@aws-cdk/aws-sqs": "^1.27.0",
-    "@aws-cdk/core": "1.27.0",
+    "@aws-cdk/aws-dynamodb": "^1.143.0",
+    "@aws-cdk/aws-events-targets": "^1.143.0",
+    "@aws-cdk/aws-lambda": "^1.143.0",
+    "@aws-cdk/aws-lambda-event-sources": "^1.143.0",
+    "@aws-cdk/aws-sns": "^1.143.0",
+    "@aws-cdk/aws-sns-subscriptions": "^1.143.0",
+    "@aws-cdk/aws-sqs": "^1.143.0",
+    "@aws-cdk/core": "1.143.0",
     "source-map-support": "^0.5.16"
   }
 }
