@@ -1,6 +1,6 @@
 # Large scale document processing with Amazon Textract
 
-This reference architecture shows how you can extract text and data from documents at scale using Amazon Textract. Below are some of key attributes of reference architecture:
+This reference architecture shows how you can extract text and data from documents at scale using Amazon Textract. Below are some of the key attributes of the reference architecture:
 - Process incoming documents to an Amazon S3 bucket.
 - Process large backfill of existing documents in an Amazon S3 bucket.
 - Serverless, highly available and highly scalable architecture.
