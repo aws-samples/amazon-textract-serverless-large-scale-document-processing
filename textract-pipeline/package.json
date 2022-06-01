@@ -11,24 +11,17 @@
     "cdk": "cdk"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.27.0",
     "@types/jest": "^24.0.22",
-    "@types/node": "10.17.5",
+    "@types/node": "^14.0.0",
+    "aws-cdk": "^2.26.0",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
-    "aws-cdk": "1.27.0",
     "ts-node": "^8.1.0",
     "typescript": "~3.7.2"
   },
   "dependencies": {
-    "@aws-cdk/aws-dynamodb": "^1.27.0",
-    "@aws-cdk/aws-events-targets": "^1.27.0",
-    "@aws-cdk/aws-lambda": "^1.27.0",
-    "@aws-cdk/aws-lambda-event-sources": "^1.27.0",
-    "@aws-cdk/aws-sns": "^1.27.0",
-    "@aws-cdk/aws-sns-subscriptions": "^1.27.0",
-    "@aws-cdk/aws-sqs": "^1.27.0",
-    "@aws-cdk/core": "1.27.0",
+    "aws-cdk-lib": "^2.1.0",
+    "constructs": "^10.0.0",
     "source-map-support": "^0.5.16"
   }
 }

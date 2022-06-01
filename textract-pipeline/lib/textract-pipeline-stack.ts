@@ -1,17 +1,18 @@
-import * as cdk from '@aws-cdk/core';
-import events = require('@aws-cdk/aws-events');
-import iam = require('@aws-cdk/aws-iam');
-import { S3EventSource, SqsEventSource, SnsEventSource, DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
-import sns = require('@aws-cdk/aws-sns');
-import snsSubscriptions = require("@aws-cdk/aws-sns-subscriptions");
-import sqs = require('@aws-cdk/aws-sqs');
-import dynamodb = require('@aws-cdk/aws-dynamodb');
-import lambda = require('@aws-cdk/aws-lambda');
-import s3 = require('@aws-cdk/aws-s3');
-import {LambdaFunction} from "@aws-cdk/aws-events-targets";
+import * as cdk from 'aws-cdk-lib';
+import events = require('aws-cdk-lib/aws-events');
+import iam = require('aws-cdk-lib/aws-iam');
+import { S3EventSource, SqsEventSource, SnsEventSource, DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+import sns = require('aws-cdk-lib/aws-sns');
+import snsSubscriptions = require("aws-cdk-lib/aws-sns-subscriptions");
+import sqs = require('aws-cdk-lib/aws-sqs');
+import dynamodb = require('aws-cdk-lib/aws-dynamodb');
+import lambda = require('aws-cdk-lib/aws-lambda');
+import s3 = require('aws-cdk-lib/aws-s3');
+import {LambdaFunction} from "aws-cdk-lib/aws-events-targets";
+import { Construct } from 'constructs';
 
 export class TextractPipelineStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // The code that defines your stack goes here
@@ -109,7 +110,7 @@ export class TextractPipelineStack extends cdk.Stack {
     // S3 Event processor
     const s3Processor = new lambda.Function(this, 'S3Processor', {
       runtime: lambda.Runtime.PYTHON_3_7,
-      code: lambda.Code.asset('lambda/s3processor'),
+      code: lambda.Code.fromAsset('lambda/s3processor'),
       handler: 'lambda_function.lambda_handler',
       timeout: cdk.Duration.seconds(30),
       environment: {
@@ -148,7 +149,7 @@ export class TextractPipelineStack extends cdk.Stack {
     // S3 Batch Operations Event processor 
     const s3BatchProcessor = new lambda.Function(this, 'S3BatchProcessor', {
       runtime: lambda.Runtime.PYTHON_3_7,
-      code: lambda.Code.asset('lambda/s3batchprocessor'),
+      code: lambda.Code.fromAsset('lambda/s3batchprocessor'),
       handler: 'lambda_function.lambda_handler',
       timeout: cdk.Duration.seconds(30),
       environment: {
@@ -173,7 +174,7 @@ export class TextractPipelineStack extends cdk.Stack {
     // Document processor (Router to Sync/Async Pipeline)
     const documentProcessor = new lambda.Function(this, 'TaskProcessor', {
       runtime: lambda.Runtime.PYTHON_3_7,
-      code: lambda.Code.asset('lambda/documentprocessor'),
+      code: lambda.Code.fromAsset('lambda/documentprocessor'),
       handler: 'lambda_function.lambda_handler',
       timeout: cdk.Duration.seconds(900),
       environment: {
@@ -198,7 +199,7 @@ export class TextractPipelineStack extends cdk.Stack {
     // Sync Jobs Processor (Process jobs using sync APIs)
     const syncProcessor = new lambda.Function(this, 'SyncProcessor', {
       runtime: lambda.Runtime.PYTHON_3_7,
-      code: lambda.Code.asset('lambda/syncprocessor'),
+      code: lambda.Code.fromAsset('lambda/syncprocessor'),
       handler: 'lambda_function.lambda_handler',
       reservedConcurrentExecutions: 1,
       timeout: cdk.Duration.seconds(25),
@@ -232,7 +233,7 @@ export class TextractPipelineStack extends cdk.Stack {
     // Async Job Processor (Start jobs using Async APIs)
     const asyncProcessor = new lambda.Function(this, 'ASyncProcessor', {
       runtime: lambda.Runtime.PYTHON_3_7,
-      code: lambda.Code.asset('lambda/asyncprocessor'),
+      code: lambda.Code.fromAsset('lambda/asyncprocessor'),
       handler: 'lambda_function.lambda_handler',
       reservedConcurrentExecutions: 1,
       timeout: cdk.Duration.seconds(60),
@@ -278,7 +279,7 @@ export class TextractPipelineStack extends cdk.Stack {
     // Async Jobs Results Processor
     const jobResultProcessor = new lambda.Function(this, 'JobResultProcessor', {
       runtime: lambda.Runtime.PYTHON_3_7,
-      code: lambda.Code.asset('lambda/jobresultprocessor'),
+      code: lambda.Code.fromAsset('lambda/jobresultprocessor'),
       handler: 'lambda_function.lambda_handler',
       memorySize: 2000,
       reservedConcurrentExecutions: 50,
@@ -312,7 +313,7 @@ export class TextractPipelineStack extends cdk.Stack {
     // PDF Generator
     const pdfGenerator = new lambda.Function(this, 'PdfGenerator', {
       runtime: lambda.Runtime.JAVA_8,
-      code: lambda.Code.asset('lambda/pdfgenerator'),
+      code: lambda.Code.fromAsset('lambda/pdfgenerator'),
       handler: 'DemoLambdaV2::handleRequest',
       memorySize: 3000,
       timeout: cdk.Duration.seconds(900),
