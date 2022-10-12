@@ -1,10 +1,15 @@
 import json
-from helper import FileHelper, S3Helper
-from trp import Document
+
 import boto3
 
+from helper import FileHelper, S3Helper
+from trp import Document
+
+
 class OutputGenerator:
-    def __init__(self, documentId, response, bucketName, objectName, forms, tables, ddb):
+    def __init__(
+        self, documentId, response, bucketName, objectName, forms, tables, ddb
+    ):
         self.documentId = documentId
         self.response = response
         self.bucketName = bucketName
@@ -20,9 +25,9 @@ class OutputGenerator:
     def saveItem(self, pk, sk, output):
 
         jsonItem = {}
-        jsonItem['documentId'] = pk
-        jsonItem['outputType'] = sk
-        jsonItem['outputPath'] = output
+        jsonItem["documentId"] = pk
+        jsonItem["outputType"] = sk
+        jsonItem["outputPath"] = output
 
         self.ddb.put_item(Item=jsonItem)
 
@@ -40,17 +45,17 @@ class OutputGenerator:
     def _outputForm(self, page, p):
         csvData = []
         for field in page.form.fields:
-            csvItem  = []
-            if(field.key):
+            csvItem = []
+            if field.key:
                 csvItem.append(field.key.text)
             else:
                 csvItem.append("")
-            if(field.value):
+            if field.value:
                 csvItem.append(field.value.text)
             else:
                 csvItem.append("")
             csvData.append(csvItem)
-        csvFieldNames = ['Key', 'Value']
+        csvFieldNames = ["Key", "Value"]
         opath = "{}page-{}-forms.csv".format(self.outputPath, p)
         S3Helper.writeCSV(csvFieldNames, csvData, self.bucketName, opath)
         self.saveItem(self.documentId, "page-{}-Forms".format(p), opath)
@@ -63,7 +68,7 @@ class OutputGenerator:
             csvRow.append("Table")
             csvData.append(csvRow)
             for row in table.rows:
-                csvRow  = []
+                csvRow = []
                 for cell in row.cells:
                     csvRow.append(cell.text)
                 csvData.append(csvRow)
@@ -76,12 +81,12 @@ class OutputGenerator:
 
     def run(self):
 
-        if(not self.document.pages):
+        if not self.document.pages:
             return
 
         opath = "{}response.json".format(self.outputPath)
         S3Helper.writeToS3(json.dumps(self.response), self.bucketName, opath)
-        self.saveItem(self.documentId, 'Response', opath)
+        self.saveItem(self.documentId, "Response", opath)
 
         print("Total Pages in Document: {}".format(len(self.document.pages)))
 
@@ -98,10 +103,10 @@ class OutputGenerator:
 
             docText = docText + page.text + "\n"
 
-            if(self.forms):
+            if self.forms:
                 self._outputForm(page, p)
 
-            if(self.tables):
+            if self.tables:
                 self._outputTable(page, p)
 
             p = p + 1
