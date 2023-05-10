@@ -1,3 +1,23 @@
+# DEPRECATED
+
+This repository will only be maintained with security fixes and phased out by 2023/09/30.
+
+We recommend to use a solution based on https://github.com/aws-samples/amazon-textract-idp-cdk-constructs.
+Samples in Python are available https://github.com/aws-samples/amazon-textract-idp-cdk-stack-samples
+and in Java are available at: https://github.com/aws-samples/amazon-textract-idp-cdk-samples-java
+
+The advantage of the new architecture are:
+* Versioned and published as packages
+* Easier customization and extension through Step Functions
+* Support for different languages
+* More features and addition of more capabilities
+
+This workshop https://catalog.us-east-1.prod.workshops.aws/workshops/f2dd7c46-e022-4f9c-8399-dcad742be516/en-US introduces the concepts and shows ways to customize the workflows for your use case
+
+
+
+
+
 # Large scale document processing with Amazon Textract
 
 This reference architecture shows how you can extract text and data from documents at scale using Amazon Textract. Below are some of the key attributes of the reference architecture:
