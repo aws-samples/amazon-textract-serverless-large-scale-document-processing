@@ -55,6 +55,32 @@ def processRequest(request):
     objectName = request['objectName']
     outputTable = request["outputTable"]
     documentsTable = request["documentsTable"]
+    qUrl = request["dlqQueueUrl"]
+
+    if jobStatus == 'FAILED':
+
+        print("DocumentId: {}".format(jobTag))
+
+        ds = datastore.DocumentStore(documentsTable, outputTable)
+        ds.updateDocumentStatus(jobTag, jobStatus)
+
+        output = "Processed -> Document: {}, Object: {}/{} processed.".format(jobTag, bucketName, objectName)
+        print(output)
+
+        features = ["Text", "Forms", "Tables"]
+        jsonMessage = {'documentId': jobTag,
+                       "features": features,
+                       'bucketName': bucketName,
+                       'objectName': objectName}
+
+        client = AwsHelper().getClient('sqs')
+
+        message = json.dumps(jsonMessage)
+        client.send_message(QueueUrl=qUrl, MessageBody=message)
+
+        print("Submitted message to DLQ queue: {}".format(message))
+
+        return
 
     pages = getJobResults(jobAPI, jobId)
 
@@ -109,6 +135,7 @@ def lambda_handler(event, context):
     
     request["outputTable"] = os.environ['OUTPUT_TABLE']
     request["documentsTable"] = os.environ['DOCUMENTS_TABLE']
+    request["dlqQueueUrl"] = os.environ['DLQ_QUEUE_URL']
 
     return processRequest(request)
 
