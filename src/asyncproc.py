@@ -148,7 +148,7 @@ def processItems(qUrl, snsTopic, snsRole):
                     limitException = e
 
         if(hitLimit):
-            raise limitException
+            raise limitException()
 
     return totalMessages, jc
 
